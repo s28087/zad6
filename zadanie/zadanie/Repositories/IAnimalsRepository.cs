@@ -1,6 +1,12 @@
-﻿namespace zadanie.Repositories;
+﻿using zadanie.Models;
 
-public class IAnimalsRepository
+namespace zadanie.Repositories;
+
+public interface IAnimalsRepository
 {
-    tu dodac
+    IEnumerable<Animal> GetAnimals();
+    int CreateAnimal(Animal animal);
+    //Animal GetAnimal(int idAnimal);
+    int UpdateAnimal(Animal animal);
+    int DeleteAnimal(int idAnimal);
 }

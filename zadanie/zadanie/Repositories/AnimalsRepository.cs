@@ -22,7 +22,7 @@ public class AnimalsRepository : IAnimalsRepository
 
         using var cmd = new SqlCommand();
         cmd.Connection = con;
-        cmd.CommandText = "Select * from Animals";
+        cmd.CommandText = "Select IdAnimal, Area, Description, Name, Category from Animals order by Name";
 
         //data reader
         var dr = cmd.ExecuteReader();
@@ -38,6 +38,7 @@ public class AnimalsRepository : IAnimalsRepository
                 Description = dr["Description"].ToString(),
                 Name = dr["Name"].ToString(),
                 //Category = dr["Category"].ToString()
+                Category = dr["Category"].ToString()
             };
             animals.Add(an);
 
@@ -45,17 +46,62 @@ public class AnimalsRepository : IAnimalsRepository
             
         }
 
-
-
-
         //con.Close();
         
         return animals;
 
     }
 
-    public IEnumerable<Animal> GetAnimal(int idAnimal)
+    public int CreateAnimal(Animal animal)
+    {
+        using var con = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]);
+        con.Open();
+        
+        using var cmd = new SqlCommand();
+        cmd.Connection = con;
+        cmd.CommandText = "INSERT INTO Animal(Area, Description, Name, Category) VALUES(@Area, @Description, @Name, @Category)";
+        cmd.Parameters.AddWithValue("@Area", animal.Area);
+        cmd.Parameters.AddWithValue("@Description", animal.Description);
+        cmd.Parameters.AddWithValue("@Name", animal.Name);
+        cmd.Parameters.AddWithValue("@Category", animal.Category);
+        
+        var affectedCount = cmd.ExecuteNonQuery();
+        return affectedCount;
+    }
+
+    public int UpdateAnimal(Animal animal)
+    {
+        using var con = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]);
+        con.Open();
+        
+        using var cmd = new SqlCommand();
+        cmd.Connection = con;
+        cmd.CommandText = "UPDATE Animal SET Arena=@Area, Description=@Description, Name=@Name, Category=@Category";
+        cmd.Parameters.AddWithValue("@Area", animal.Area);
+        cmd.Parameters.AddWithValue("@Description", animal.Description);
+        cmd.Parameters.AddWithValue("@Name", animal.Name);
+        cmd.Parameters.AddWithValue("@Category", animal.Category);
+        
+        var affectedCount = cmd.ExecuteNonQuery();
+        return affectedCount;
+    }
+
+    public int DeleteAnimal(int id)
+    {
+        using var con = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]);
+        con.Open();
+        
+        using var cmd = new SqlCommand();
+        cmd.Connection = con;
+        cmd.CommandText = "DELETE FROM Animal WHERE IdAnimal = @IdAnimal";
+        cmd.Parameters.AddWithValue("@IdAnimal", id);
+        
+        var affectedCount = cmd.ExecuteNonQuery();
+        return affectedCount;
+    }
+
+    /*public IEnumerable<Animal> GetAnimal(int idAnimal)
     {
         
-    }
+    }*/
 }

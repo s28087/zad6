@@ -1,3 +1,4 @@
+using zadanie.Repositories;
 using zadanie.Services;
 
 public class Program
@@ -12,7 +13,9 @@ public class Program
         builder.Services.AddControllers();
 
         //zarejestrowanie zaleznosci
+        builder.Services.AddScoped<IAnimalsRepository, AnimalsRepository>();
         builder.Services.AddScoped<IAnimalsService, AnimalsService>();
+        
 
         var app = builder.Build();
         

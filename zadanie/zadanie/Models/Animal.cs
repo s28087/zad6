@@ -3,11 +3,11 @@
 namespace zadanie.Models;
 
 
-public enum category
+/*public enum category
 {
     pies,
     kot
-}
+}*/
 
 public class Animal
 {
@@ -27,9 +27,9 @@ public class Animal
     
     [Required]
     [MaxLength(200)]
-    [EnumDataType(typeof(category))]
-    public category Category { get; set; }
-    
+    //[EnumDataType(typeof(category))]
+    //public category Category { get; set; }
+    public string Category { get; set; }
     
     
     [Required]

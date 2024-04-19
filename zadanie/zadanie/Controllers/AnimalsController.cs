@@ -6,12 +6,11 @@ using zadanie.Services;
 namespace zadanie.Controllers;
 
 
-[Route("api/zwierzeta")]
+[Route("api/[controller]")]
 [ApiController]
 public class AnimalsController : ControllerBase
 {
-
-
+    
     private readonly IAnimalsService _animalsService;
 
     public AnimalsController(IAnimalsService animalsService)
@@ -26,11 +25,27 @@ public class AnimalsController : ControllerBase
         return Ok(animal);
     }
     
+    
     [HttpPost]
     public IActionResult CreateAnimal(Animal animal)
     {
         _animalsService.CreateAnimal(animal);
         return StatusCode(StatusCodes.Status201Created);
     }
+    
+    [HttpPut("{id:int}")]
+    public IActionResult UpdateAnimal(int id,Animal animal)
+    {
+        var zm = _animalsService.UpdateAnimal(animal);
+        return NoContent();
+    }
+    
+    [HttpDelete("{id:int}")]
+    public IActionResult DeleteAnimal(int id)
+    {
+        var zm = _animalsService.DeleteAnimal(id);
+        return NoContent();
+    }
+    
     
 }
