@@ -15,6 +15,7 @@ public class AnimalsRepository : IAnimalsRepository
     }
     
     public IEnumerable<Animal> GetAnimals()
+    //public IEnumerable<Animal> GetAnimals(string orderBy)
     {
         using var con = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]);
         //SqlConnection con = new SqlConnection("Server=localhost;Database=APBD5_2;User Id; Password= ;");
@@ -22,7 +23,21 @@ public class AnimalsRepository : IAnimalsRepository
 
         using var cmd = new SqlCommand();
         cmd.Connection = con;
-        cmd.CommandText = "Select IdAnimal, Area, Description, Name, Category from Animals order by Name";
+        cmd.CommandText = "Select IdAnimal, Area, Description, Name, Category from Animal order by Name";
+        
+        
+        
+        //List<string> sortowanie = new List<string>();
+        //sortowanie .Add("Name");
+        //sortowanie .Add("Description");
+        //sortowanie .Add("Area");
+        //sortowanie .Add("Category");
+        //if (!sortowanie .Contains(orderBy))
+       // {
+        //    orderBy = "Name";
+        //}
+        //cmd.CommandText = "Select IdAnimal, Area, Description, Name, Category from Animal order by " + orderBy ;
+        //cmd.Parameters.AddWithValue("@orderBy", orderBy);
 
         //data reader
         var dr = cmd.ExecuteReader();
@@ -69,18 +84,19 @@ public class AnimalsRepository : IAnimalsRepository
         return affectedCount;
     }
 
-    public int UpdateAnimal(Animal animal)
+    public int UpdateAnimal(Animal animal, int id)
     {
         using var con = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]);
         con.Open();
         
         using var cmd = new SqlCommand();
         cmd.Connection = con;
-        cmd.CommandText = "UPDATE Animal SET Arena=@Area, Description=@Description, Name=@Name, Category=@Category";
+        cmd.CommandText = "UPDATE Animal SET Area=@Area, Description=@Description, Name=@Name, Category=@Category WHERE IdAnimal = @IdAnimal";
         cmd.Parameters.AddWithValue("@Area", animal.Area);
         cmd.Parameters.AddWithValue("@Description", animal.Description);
         cmd.Parameters.AddWithValue("@Name", animal.Name);
         cmd.Parameters.AddWithValue("@Category", animal.Category);
+        cmd.Parameters.AddWithValue("@IdAnimal", id);
         
         var affectedCount = cmd.ExecuteNonQuery();
         return affectedCount;

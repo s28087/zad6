@@ -36,7 +36,7 @@ public class AnimalsController : ControllerBase
     [HttpPut("{id:int}")]
     public IActionResult UpdateAnimal(int id,Animal animal)
     {
-        var zm = _animalsService.UpdateAnimal(animal);
+        var zm = _animalsService.UpdateAnimal(animal, id);
         return NoContent();
     }
     
