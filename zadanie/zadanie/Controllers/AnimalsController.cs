@@ -19,12 +19,11 @@ public class AnimalsController : ControllerBase
     }
     
     [HttpGet]
-    public IActionResult GetAnimals()
+    public IActionResult GetAnimals(string orderBy)
     {
-        var animal = _animalsService.GetAnimals();
+        var animal = _animalsService.GetAnimals(orderBy);
         return Ok(animal);
     }
-    
     
     [HttpPost]
     public IActionResult CreateAnimal(Animal animal)

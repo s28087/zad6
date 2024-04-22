@@ -1,4 +1,5 @@
 ﻿using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using zadanie.Models;
 
 namespace zadanie.Repositories;
@@ -14,8 +15,8 @@ public class AnimalsRepository : IAnimalsRepository
         _configuration = configuration;
     }
     
-    public IEnumerable<Animal> GetAnimals()
-    //public IEnumerable<Animal> GetAnimals(string orderBy)
+    //public IEnumerable<Animal> GetAnimals()
+    public IEnumerable<Animal> GetAnimals(string orderBy)
     {
         using var con = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]);
         //SqlConnection con = new SqlConnection("Server=localhost;Database=APBD5_2;User Id; Password= ;");
@@ -27,17 +28,17 @@ public class AnimalsRepository : IAnimalsRepository
         
         
         
-        //List<string> sortowanie = new List<string>();
-        //sortowanie .Add("Name");
-        //sortowanie .Add("Description");
-        //sortowanie .Add("Area");
-        //sortowanie .Add("Category");
-        //if (!sortowanie .Contains(orderBy))
-       // {
-        //    orderBy = "Name";
-        //}
-        //cmd.CommandText = "Select IdAnimal, Area, Description, Name, Category from Animal order by " + orderBy ;
-        //cmd.Parameters.AddWithValue("@orderBy", orderBy);
+        List<string> sortowanie = new List<string>();
+        sortowanie .Add("Name");
+        sortowanie .Add("Description");
+        sortowanie .Add("Area");
+        sortowanie .Add("Category");
+        if (!sortowanie .Contains(orderBy))
+        {
+            orderBy = "Name";
+        }
+        cmd.CommandText = "Select IdAnimal, Area, Description, Name, Category from Animal order by " + orderBy ;
+        cmd.Parameters.AddWithValue("@orderBy", orderBy);
 
         //data reader
         var dr = cmd.ExecuteReader();

@@ -18,10 +18,12 @@ public class AnimalsService : IAnimalsService
          _animalsRepository = animalsRepository;
     }
     
-    public IEnumerable<Animal> GetAnimals()
+    
+    public IEnumerable<Animal> GetAnimals(string orderBy)
     {
-        return _animalsRepository.GetAnimals();
+        return _animalsRepository.GetAnimals(orderBy);
     }
+    
 
     public int CreateAnimal(Animal animal)
     {
